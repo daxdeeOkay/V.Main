@@ -1,0 +1,72 @@
+--[[ 
+    | GAMES: Outlaster |
+    | Status: Unfinished | 
+
+    5/11/24
+]]--
+
+--// whats a script without this?
+local player = game.Players.LocalPlayer
+local character = player.Character
+local runService = game:GetService("RunService")
+
+--// tables full of haha funnies
+local randomSubTitle = {
+    "dogshit hub, dont use it",
+    "volta is not real, volta is not real",
+    "dont get banned ;)",
+    "i have an erection"
+};
+
+ --// dogshit code to load uiLib || UI CONFIG
+local uilib = loadstring(game:HttpGet('https://sirius.menu/rayfield'))();
+
+local mainWindow = uilib:CreateWindow({
+    Name = "VoltaHub | Release 1.0",
+    LoadingTitle = "Volta, By @daxOkay",
+    LoadingSubtitle = randomSubTitle[math.random(1, #randomSubTitle)],
+    ConfigurationSaving = {
+        Enabled = true,
+        FileName = "Volta"
+    }
+});
+
+--// Ui's Tabs
+local tabHome = mainWindow:CreateTab("Volta");
+local tabGame = mainWindow:CreateTab(game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name);
+
+--// UI Elements | Volta
+local homeLabel1 = tabHome:CreateLabel("Volta, Created by @daxOkay")
+
+--// UI Elements | Game
+local playerSec = tabGame:CreateSection("Local Player")
+local wsSliderPlus = tabGame:CreateSlider({
+    Name = "Walkspeed [+]",
+    Range = {16, 50},
+    Increment = 1,
+    CurrentValue = 16,
+    Callback = function(v)
+        character:WaitForChild("Humanoid").WalkSpeed = v;
+    end,
+})
+
+local advantageSec = tabGame:CreateSection("Advantage ESP")
+
+local advantageToggle = tabGame:CreateToggle({
+    Name = "Advantage ESP",
+    CurrentValue = false,
+    Callback = function(v)
+        for i,v in pairs(workspace:GetDescendants()) do
+            if v:IsA("TouchTransmitter") and v.Parent:IsA("MeshPart") and v.Parent.Parent:IsA("Model") and v.Parent.Parent.Parent:IsA("MeshPart") and v.Parent.Parent.Parent.Parent:IsA("Model") then
+                local esp = Drawing.new("Text")
+                esp.Visible = false;
+                esp.Size = 13;
+                esp.Visible = v;
+                esp.Position = Vector2.new(v.Position.X,v.Position.Y)
+
+            end
+        end
+    end,
+
+    
+})
