@@ -5,10 +5,31 @@
     5/11/24
 ]]--
 
+
+local esp = Drawing.new("Text");
+esp.Size = 25;
+esp.Text = "Advantage";
+esp.Color = Color3.new(255,0,0)
+
+runService.RenderStepped:Connect(function()
+    for i,v in pairs(workspace:GetDescendants()) do
+        if v:IsA("TouchTransmitter") and v.Parent:IsA("MeshPart") and v.Parent.Parent:IsA("Model") and v.Parent.Parent.Parent:IsA("MeshPart") and v.Parent.Parent.Parent.Parent:IsA("Model") then
+            local vpp, cansee = cam:WorldToViewportPoint(v.Parent.Position);
+
+            if cansee then
+                esp.Position = Vector2.new(vpp.X,vpp.Y);
+            end
+            
+        end;
+    end;
+end);
+
+
 --// whats a script without this?
-local player = game.Players.LocalPlayer
-local character = player.Character
-local runService = game:GetService("RunService")
+local player = game.Players.LocalPlayer;
+local character = player.Character;
+local runService = game:GetService("RunService");
+local cam = workspace.CurrentCamera;
 
 --// tables full of haha funnies
 local randomSubTitle = {
@@ -36,10 +57,13 @@ local tabHome = mainWindow:CreateTab("Volta");
 local tabGame = mainWindow:CreateTab(game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name);
 
 --// UI Elements | Volta
-local homeLabel1 = tabHome:CreateLabel("Volta, Created by @daxOkay")
+local homeLabel1 = tabHome:CreateLabel("Volta, Created by @daxOkay");
 
 --// UI Elements | Game
-local playerSec = tabGame:CreateSection("Local Player")
+
+local vLabel = tabGame:CreateLabel("v0 | Unreleased")
+
+local playerSec = tabGame:CreateSection("Local Player");
 local wsSliderPlus = tabGame:CreateSlider({
     Name = "Walkspeed [+]",
     Range = {16, 50},
@@ -48,25 +72,16 @@ local wsSliderPlus = tabGame:CreateSlider({
     Callback = function(v)
         character:WaitForChild("Humanoid").WalkSpeed = v;
     end,
-})
+});
 
-local advantageSec = tabGame:CreateSection("Advantage ESP")
+local advantageSec = tabGame:CreateSection("Advantage ESP");
 
 local advantageToggle = tabGame:CreateToggle({
     Name = "Advantage ESP",
     CurrentValue = false,
     Callback = function(v)
-        for i,v in pairs(workspace:GetDescendants()) do
-            if v:IsA("TouchTransmitter") and v.Parent:IsA("MeshPart") and v.Parent.Parent:IsA("Model") and v.Parent.Parent.Parent:IsA("MeshPart") and v.Parent.Parent.Parent.Parent:IsA("Model") then
-                local esp = Drawing.new("Text")
-                esp.Visible = false;
-                esp.Size = 13;
-                esp.Visible = v;
-                esp.Position = Vector2.new(v.Position.X,v.Position.Y)
-
-            end
-        end
+       
+        esp.Visible = v;
+        
     end,
-
-    
-})
+});
